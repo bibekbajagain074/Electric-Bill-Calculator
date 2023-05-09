@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  double unit = 0.00;
+  double rate = 0.00;
+  double result = 0.00;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +55,11 @@ class HomePage extends StatelessWidget {
             height: 20,
           ),
           TextField(
+            onChanged: (value) {
+              setState(() {
+                unit = double.parse(value);
+              });
+            },
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               prefixIcon: Icon(
@@ -69,6 +83,11 @@ class HomePage extends StatelessWidget {
             height: 20,
           ),
           TextField(
+            onChanged: (value) {
+              setState(() {
+                rate = double.parse(value);
+              });
+            },
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               prefixIcon: Icon(
@@ -87,20 +106,27 @@ class HomePage extends StatelessWidget {
           SizedBox(
             height: 40,
           ),
-          Container(
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.yellow[700],
-              borderRadius: BorderRadius.circular(8),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                result = unit * rate;
+              });
+            },
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.yellow[700],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Center(
+                  child: Text(
+                'Calculate',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
+              )),
             ),
-            child: Center(
-                child: Text(
-              'Calculate',
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500),
-            )),
           ),
           SizedBox(
             height: 30,
@@ -125,7 +151,7 @@ class HomePage extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  'Rs 0.00',
+                  'Rs ${result.toStringAsFixed(2)}',
                   style: TextStyle(
                       fontSize: 28,
                       color: Colors.black.withOpacity(0.9),
